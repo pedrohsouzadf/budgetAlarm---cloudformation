@@ -1,0 +1,36 @@
+---
+Description: "Basic Budget test"
+Resources:
+  BudgetExample:
+    Type: "AWS::Budgets::Budget"
+    Properties:
+      Budget:
+        BudgetLimit:
+          Amount: 1
+          Unit: USD
+        TimeUnit: DAILY
+        TimePeriod:
+          Start: "2022121220"
+          End: "2023121221"
+        BudgetType: COST
+        CostFilters:
+          AZ:
+            - us-east-2
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 99
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: pedrohsouzadf@gmail.com
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 80
+          Subscribers:
+          - SubscriptionType: EMAIL
+            Address: pedrohsouzadf@gmail.com
+Outputs:
+  BudgetId:
+    Value: !Ref BudgetExample
